@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require './lib/getaway_deals'
+
+GetawayDeals::CLI.new.call
