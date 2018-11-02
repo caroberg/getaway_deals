@@ -8,12 +8,7 @@ class GetawayDeals::CLI
   end
   
   def list_deals 
-    #HereDoc with squiggly...
-    puts <<-DOC.gsub /^\s*/, ''
-    1. Deal One - price - still available!
-    2. Deal Two - price - still available!
-    3. Etc
-    DOC
+    @getaways = GetawayDeals::Getaway.all
   end 
   
   def menu 
