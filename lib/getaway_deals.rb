@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'pry'
 require 'open-uri'
-require 'colorize'
+
 
 require_relative "./getaway_deals/version"
 require_relative './getaway_deals/cli'
