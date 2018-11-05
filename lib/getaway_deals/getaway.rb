@@ -1,17 +1,31 @@
 class GetawayDeals::Getaway
-  attr_accessor :name, :price, :rating, :url
+  attr_accessor :location, :price, :getaway_url, :rating, :description, :buy
+  @@all = []
+  
+  def initialize(getaway_hash)
+    getaway_hash.each {|key, value| self.send(("#{key}="), value)}
+    @@all << self 
+  end 
   
   def self.all 
     self.scrape_getaways
   end
   
-  def scrape_getaways 
-    deals = [] 
-    deals << self.scrape_groupon 
-    deals 
+   def self.scrape_getaways 
+    page = Nokogiri::HTML(open("https://www.groupon.com/getaways"))
+    groupon_getaways = [] 
+    
+     page.css(".card-ui").each do |getaway| 
+        location = getaway.css(".cui-udc-title-with-subtitle").text.gsub("\n", "").strip
+        price = getaway.css(".cui-price-discount").text.gsub("From ", "").gsub("/nt", "")
+        getaway_url = getaway.css("a").attribute("href").value 
+        
+        getaway_info = {:location => location, 
+                        :price => price,
+                        :getaway_url => getaway_url} 
+        groupon_getaways << getaway_info 
+      end 
+    groupon_getaways 
   end 
-  
-  def self.scrape_groupon 
-    doc = Nokogiri::HTML(open("https://www.groupon.com/getaways"))
-  end
+
 end
