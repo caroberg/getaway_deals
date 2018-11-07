@@ -19,10 +19,12 @@ class GetawayDeals::Getaway
     
      page.css(".card-ui").each do |getaway| 
         title = getaway.css(".cui-udc-title-with-subtitle").text.gsub("\n", "").strip
+        rating = getaway.css("ul.rating").first.attr("data-bhc").gsub("deal-review-rating:", "")
         price = getaway.css(".cui-price-discount").text.gsub("From ", "").gsub("/nt", "")
         getaway_url = getaway.css("a").attribute("href").value 
         
-        getaway_info = {:title => title, 
+        getaway_info = {:title => title,
+                        :rating => rating,
                         :price => price,
                         :getaway_url => getaway_url} 
         groupon_getaways << getaway_info 
@@ -30,17 +32,17 @@ class GetawayDeals::Getaway
     groupon_getaways 
   end 
   
-  def self.scrape_getaway_page
-    getaway_page = Nokogiri::HTML(open("https://www.groupon.com/deals/ga-gate-1-travel-reykjavik-27"))
+  def self.scrape_getaway_page(getaway_url)
+    getaway_page = Nokogiri::HTML(open(getaway_url))
     
     deal_title = getaway_page.css("h1.deal-page-title").text.gsub("\n", "").strip
-    deal_price = getaway_page.css(".price").text 
+    #deal_price = getaway_page.css(".price").text 
+   
     
     
-     
-     binding.pry
     
     
   end
+   binding.pry
 
 end
